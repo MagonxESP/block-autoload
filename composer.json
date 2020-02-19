@@ -1,0 +1,40 @@
+{
+    "name": "magonxesp/acf-block-autoload",
+    "description": "Load all acf blocks created in specific directory",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "MagonxESP",
+            "email": "janma.360@gmail.com"
+        }
+    ],
+    "repositories":[
+        {
+            "type": "package",
+            "package": {
+                "name": "advanced-custom-fields/advanced-custom-fields-pro",
+                "version": "5.8.7",
+                "type": "wordpress-plugin",
+                "dist": {
+                    "type": "zip",
+                    "url": "https://connect.advancedcustomfields.com/index.php?a=download&p=pro&k={%ACF_PRO_KEY}&t={%version}"
+                },
+                "require": {
+                    "composer/installers": "^1.4",
+                    "ffraenz/private-composer-installer": "^2.0"
+                }
+            }
+        }
+    ],
+    "require": {
+        "symfony/filesystem": "^5.0"
+    },
+    "require-dev": {
+        "timber/timber": "^1.15",
+        "advanced-custom-fields/advanced-custom-fields-pro": "^5.8",
+        "johnpbloch/wordpress-core": "^5.3"
+    },
+    "autoload": {
+        "MagonxESP\\BlockAutoload": "src/"
+    }
+}
