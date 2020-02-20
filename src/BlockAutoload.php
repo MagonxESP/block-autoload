@@ -4,6 +4,7 @@
 namespace MagonxESP\BlockAutoload;
 
 use MagonxESP\BlockAutoload\Block\BlockInterface;
+use MagonxESP\BlockAutoload\Block\BlockPlugin;
 use MagonxESP\BlockAutoload\Exception\BlockAutoloadException;
 use Symfony\Component\Filesystem\Filesystem;
 
@@ -88,7 +89,14 @@ class BlockAutoload {
      * Create block instance
      */
     private function createBlockInstance() {
+        $instance = null;
 
+        switch($this->blockApi) {
+            case BlockPlugin::ACF_PRO:
+                break;
+        }
+
+        return $instance;
     }
 
     /**
@@ -108,7 +116,7 @@ class BlockAutoload {
             $class = ucfirst(strtolower($blockName));
 
             if ($this->blocksNamespace != null && $this->blocksNamespace != '') {
-                $class = $this->blocksNamespace . '\\' . $class;
+                $class = $this->blocksNamespace . $class;
             }
 
             if (class_exists($class)) {
