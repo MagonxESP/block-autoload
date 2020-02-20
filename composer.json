@@ -1,6 +1,6 @@
 {
-    "name": "magonxesp/acf-block-autoload",
-    "description": "Load all acf blocks created in specific directory",
+    "name": "magonxesp/block-autoload",
+    "description": "Autoload wordpress blocks",
     "license": "MIT",
     "authors": [
         {
