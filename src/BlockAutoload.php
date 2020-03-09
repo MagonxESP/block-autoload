@@ -46,8 +46,8 @@ class BlockAutoload {
      */
     public function __construct($blockApi, $blocksDirectoryAbsPath) {
         $this->blockApi = $blockApi;
-        $this->setBlocksDirectory($blocksDirectoryAbsPath);
         $this->fileSystem = new Filesystem();
+        $this->setBlocksDirectory($blocksDirectoryAbsPath);
     }
 
     /**
