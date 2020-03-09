@@ -52,18 +52,29 @@ class BlockDiscovery {
         $finder = new Finder();
         $finder->files()->in($this->directory);
 
+        if (substr($this->namespace, -1) !== '\\') {
+            $this->namespace .= '\\';
+        }
+
         /** @var SplFileInfo $fileInfo */
         foreach ($finder as $fileInfo) {
             try {
-                $class = $this->namespace . '\\' . $fileInfo->getBasename('.php');
-                /** @var Block|null $annotation */
-                $annotation = $this->annotationReader->getClassAnnotation(new \ReflectionClass($class), 'MagonxESP\BlockAutoload\Annotation\Block');
+                if ($fileInfo->getExtension() == 'php') {
+                    $class = $this->namespace . $fileInfo->getBasename('.php');
 
-                if ($annotation) {
-                    $this->blocks[$annotation->name] = [
-                        'class' => $class,
-                        'annotation' => $annotation
-                    ];
+                    if (!class_exists($class)) {
+                        require_once $fileInfo->getRealPath();
+                    }
+
+                    /** @var Block|null $annotation */
+                    $annotation = $this->annotationReader->getClassAnnotation(new \ReflectionClass($class), 'MagonxESP\BlockAutoload\Annotation\Block');
+
+                    if ($annotation) {
+                        $this->blocks[$annotation->name] = [
+                            'class' => $class,
+                            'annotation' => $annotation
+                        ];
+                    }
                 }
             } catch (\ReflectionException $e) {
                 continue;
