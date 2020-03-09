@@ -3,6 +3,8 @@
 
 namespace MagonxESP\BlockAutoload;
 
+use Doctrine\Common\Annotations\AnnotationReader;
+use MagonxESP\BlockAutoload\Block\BlockDiscovery;
 use MagonxESP\BlockAutoload\Block\BlockInterface;
 use MagonxESP\BlockAutoload\Block\BlockPlugin;
 use MagonxESP\BlockAutoload\Exception\BlockAutoloadException;
@@ -141,6 +143,18 @@ class BlockAutoload {
             if (!$block) {
                 // TODO instance simple block
             }
+        }
+    }
+
+    /**
+     * Load the blocks
+     */
+    public function load() {
+        $discovery = new BlockDiscovery($this->blocksNamespace, $this->blocksDirectory, new AnnotationReader());
+        $blocks = $discovery->getBlocks();
+
+        foreach ($blocks as $block) {
+            var_dump($block);
         }
     }
 
