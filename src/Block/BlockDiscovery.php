@@ -67,7 +67,7 @@ class BlockDiscovery {
                     }
 
                     /** @var Block|null $annotation */
-                    $annotation = $this->annotationReader->getClassAnnotation(new \ReflectionClass($class), 'MagonxESP\BlockAutoload\Annotation\Block');
+                    $annotation = $this->annotationReader->getClassAnnotation(new \ReflectionClass($class), 'MagonxESP\\BlockAutoload\\Annotation\\Block');
 
                     if ($annotation) {
                         $this->blocks[$annotation->name] = [
