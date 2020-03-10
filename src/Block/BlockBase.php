@@ -4,200 +4,50 @@
 namespace MagonxESP\BlockAutoload\Block;
 
 
+use MagonxESP\BlockAutoload\Annotation\Block;
+
 abstract class BlockBase implements BlockInterface {
 
     /**
-     * Block machine name
-     *
-     * @var string $name
+     * @var Block $annotation
      */
-    protected $name;
+    private $annotation;
 
     /**
-     * Block title
-     *
-     * @var string $title
+     * @var string $blockApi
      */
-    protected $title;
-
-    /**
-     * Block description
-     *
-     * @var string $description
-     */
-    protected $description;
-
-    /**
-     * Block category
-     *
-     * @var string $category
-     */
-    protected $category;
-
-    /**
-     * Block icon
-     *
-     * @var string $icon
-     */
-    protected $icon;
-
-    /**
-     * Block keywords
-     *
-     * @var string[] $keywords
-     */
-    protected $keywords;
-
-    /**
-     * Block domain
-     *
-     * @var string $domain
-     */
-    protected $domain;
-
-    /**
-     * Absolute path to block template
-     *
-     * @var string $template
-     */
-    protected $template;
+    private $blockApi;
 
     /**
      * AbstractBlock constructor.
-     * @param string $name
-     * @param string $title
-     * @param string $description
-     * @param string $category
-     * @param string $icon
-     * @param string[] $keywords
-     * @param string $domain
+     *
+     * @param Block $annotation
      */
-    public function __construct(string $name, string $title, string $description, string $domain, string $category = '', string $icon = '', array $keywords = []) {
-        $this->name = $name;
-        $this->title = $title;
-        $this->description = $description;
-        $this->category = $category;
-        $this->icon = $icon;
-        $this->keywords = $keywords;
-        $this->domain = $domain;
+    public function __construct(Block $annotation, $blockApi) {
+        $this->annotation = $annotation;
+        $this->blockApi = $blockApi;
     }
 
     /**
-     * @return string
+     * Get the block info
+     *
+     * @return Block
      */
-    public function getName() {
-        return $this->name;
+    public function getBlockInfo() {
+        return $this->annotation;
     }
 
     /**
-     * @param string $name
+     * @inheritDoc
      */
-    public function setName(string $name) {
-        $this->name = $name;
+    public function register() {
+        BlockRegistry::register($this, $this->blockApi);
     }
 
-    /**
-     * @return string
-     */
-    public function getTitle() {
-        return $this->title;
-    }
-
-    /**
-     * @param string $title
-     */
-    public function setTitle(string $title) {
-        $this->title = $title;
-    }
-
-    /**
-     * @return string
-     */
-    public function getDescription() {
-        return $this->description;
-    }
-
-    /**
-     * @param string $description
-     */
-    public function setDescription(string $description) {
-        $this->description = $description;
-    }
-
-    /**
-     * @return string
-     */
-    public function getCategory() {
-        return $this->category;
-    }
-
-    /**
-     * @param string $category
-     */
-    public function setCategory(string $category) {
-        $this->category = $category;
-    }
-
-    /**
-     * @return string
-     */
-    public function getIcon() {
-        return $this->icon;
-    }
-
-    /**
-     * @param string $icon
-     */
-    public function setIcon(string $icon) {
-        $this->icon = $icon;
-    }
-
-    /**
-     * @return string[]
-     */
-    public function getKeywords(): array {
-        return $this->keywords;
-    }
-
-    /**
-     * @param string[] $keywords
-     */
-    public function setKeywords(array $keywords) {
-        $this->keywords = $keywords;
-    }
-
-    /**
-     * @return string
-     */
-    public function getDomain() {
-        return $this->domain;
-    }
-
-    /**
-     * @param string $domain
-     */
-    public function setDomain(string $domain) {
-        $this->domain = $domain;
-    }
-
-    /**
-     * @return string
-     */
-    public function getTemplate() {
-        return $this->template;
-    }
-
-    /**
-     * @param string $template
-     */
-    public function setTemplate(string $template) {
-        $this->template = $template;
-    }
-
-    public function render() {
-        if ($this->template != null && $this->template != '') {
+    public function render($settings, $content = '', $is_preview = false) {
+        if ($this->annotation->template != null && $this->annotation->template != '') {
             ob_start();
-            include_once $this->template;
+            include_once $this->annotation->template;
             $output = ob_get_clean();
 
             if ($output !== false) {

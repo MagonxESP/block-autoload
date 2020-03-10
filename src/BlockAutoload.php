@@ -4,6 +4,7 @@
 namespace MagonxESP\BlockAutoload;
 
 use Doctrine\Common\Annotations\AnnotationReader;
+use MagonxESP\BlockAutoload\Block\BlockBase;
 use MagonxESP\BlockAutoload\Block\BlockDiscovery;
 use MagonxESP\BlockAutoload\Block\BlockInterface;
 use MagonxESP\BlockAutoload\Block\BlockPlugin;
@@ -154,7 +155,12 @@ class BlockAutoload {
         $blocks = $discovery->getBlocks();
 
         foreach ($blocks as $block) {
-            var_dump($block);
+            /** @var Block $annotation */
+            $annotation = $block['annotation'];
+            $class = $block['class'];
+            /** @var BlockBase $blockInstance */
+            $blockInstance = new $class($annotation, $this->blockApi);
+            $blockInstance->register();
         }
     }
 

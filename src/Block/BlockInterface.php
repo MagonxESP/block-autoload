@@ -10,7 +10,7 @@ interface BlockInterface {
      *
      * @return void
      */
-    public function render();
+    public function render($settings, $content = '', $is_preview = false);
 
     /**
      * Register the block

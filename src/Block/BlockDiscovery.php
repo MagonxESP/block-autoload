@@ -3,6 +3,7 @@
 
 namespace MagonxESP\BlockAutoload\Block;
 
+use Doctrine\Common\Annotations\AnnotationRegistry;
 use Doctrine\Common\Annotations\Reader;
 use MagonxESP\BlockAutoload\Annotation\Block;
 use Symfony\Component\Finder\Finder;
@@ -51,23 +52,29 @@ class BlockDiscovery {
     private function discoverBlocks() {
         $finder = new Finder();
         $finder->files()->in($this->directory);
+        $namespace = $this->namespace;
 
-        if (substr($this->namespace, -1) !== '\\') {
-            $this->namespace .= '\\';
+        if (substr($namespace, -1) !== '\\') {
+            $namespace .= '\\';
         }
+
+        AnnotationRegistry::registerLoader('class_exists');
 
         /** @var SplFileInfo $fileInfo */
         foreach ($finder as $fileInfo) {
             try {
                 if ($fileInfo->getExtension() == 'php') {
-                    $class = $this->namespace . $fileInfo->getBasename('.php');
+                    $class = $namespace . $fileInfo->getBasename('.php');
 
                     if (!class_exists($class)) {
                         require_once $fileInfo->getRealPath();
                     }
 
                     /** @var Block|null $annotation */
-                    $annotation = $this->annotationReader->getClassAnnotation(new \ReflectionClass($class), 'MagonxESP\\BlockAutoload\\Annotation\\Block');
+                    $annotation = $this->annotationReader->getClassAnnotation(
+                        new \ReflectionClass($class),
+                        'MagonxESP\\BlockAutoload\\Annotation\\Block'
+                    );
 
                     if ($annotation) {
                         $this->blocks[$annotation->name] = [
