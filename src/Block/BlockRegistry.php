@@ -12,7 +12,7 @@ class BlockRegistry {
     /**
      * Block to register
      *
-     * @var BlockBase $block
+     * @var BlockInterface $block
      */
     private $block;
 
@@ -23,7 +23,7 @@ class BlockRegistry {
      */
     private $blockInfo;
 
-    public function __construct(BlockBase $block) {
+    public function __construct(BlockInterface $block) {
         $this->block = $block;
         $this->blockInfo = $block->getBlockInfo();
     }
@@ -34,7 +34,7 @@ class BlockRegistry {
                 'name'            => $this->blockInfo->name,
                 'title'           => __( $this->blockInfo->title, $this->blockInfo->domain ),
                 'description'     => __( $this->blockInfo->description, $this->blockInfo->domain ),
-                'render_callback' => [$this->block, 'render'],
+                'render_callback' => [$this->block, 'doRender'],
                 'category'        => $this->blockInfo->category,
                 'icon'            => $this->blockInfo->icon,
                 'keywords'        => $this->blockInfo->keywords,
@@ -42,7 +42,7 @@ class BlockRegistry {
         }
     }
 
-    public static function register(BlockBase $block, string $blockApi) {
+    public static function register(BlockInterface $block, string $blockApi) {
         $registry = new BlockRegistry($block);
 
         switch ($blockApi) {

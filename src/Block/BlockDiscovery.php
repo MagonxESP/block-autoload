@@ -79,7 +79,8 @@ class BlockDiscovery {
                     if ($annotation) {
                         $this->blocks[$annotation->name] = [
                             'class' => $class,
-                            'annotation' => $annotation
+                            'annotation' => $annotation,
+                            'absolute_path' => $fileInfo->getPath()
                         ];
                     }
                 }

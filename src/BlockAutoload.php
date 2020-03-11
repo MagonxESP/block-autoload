@@ -89,65 +89,6 @@ class BlockAutoload {
     }
 
     /**
-     * Create block instance
-     */
-    private function createBlockInstance() {
-        $instance = null;
-
-        switch($this->blockApi) {
-            case BlockPlugin::ACF_PRO:
-                break;
-        }
-
-        return $instance;
-    }
-
-    /**
-     * Return the block instance if it has a user defined class
-     *
-     * @param string $blockName
-     *
-     * @return BlockInterface|null
-     */
-    private function hasBlockClass($blockName) {
-        $blockFile = $this->blocksDirectory . '/' . $blockName . '/' . $blockName . '.php';
-        $instance = null;
-
-        if ($this->fileSystem->exists($blockFile)) {
-            require_once $blockFile;
-
-            $class = ucfirst(strtolower($blockName));
-
-            if ($this->blocksNamespace != null && $this->blocksNamespace != '') {
-                $class = $this->blocksNamespace . $class;
-            }
-
-            if (class_exists($class)) {
-                $instance = new $class();
-            }
-        }
-
-        return $instance;
-    }
-
-    /**
-     * Scan block directory and initialize the blocks
-     */
-    private function scanBlocksDirectory() {
-        $blocks = scandir($this->blocksDirectory);
-
-        foreach ($blocks as $blockDirectory) {
-            $blockAbsPath = $this->blocksDirectory . '/' . $blockDirectory;
-            $blockName = $blockDirectory;
-            $block = $this->hasBlockClass($blockName);
-
-            if (!$block) {
-                // TODO instance simple block
-            }
-        }
-    }
-
-    /**
      * Load the blocks
      */
     public function load() {
@@ -159,7 +100,7 @@ class BlockAutoload {
             $annotation = $block['annotation'];
             $class = $block['class'];
             /** @var BlockBase $blockInstance */
-            $blockInstance = new $class($annotation, $this->blockApi);
+            $blockInstance = new $class($annotation, $this->blockApi, $block['absolute_path']);
             $blockInstance->register();
         }
     }

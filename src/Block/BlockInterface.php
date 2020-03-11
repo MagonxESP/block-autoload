@@ -6,7 +6,11 @@ namespace MagonxESP\BlockAutoload\Block;
 
 interface BlockInterface {
     /**
-     * Block render callback
+     * Render the block content
+     *
+     * @param mixed $settings
+     * @param string $content
+     * @param bool $is_preview
      *
      * @return void
      */
@@ -25,4 +29,19 @@ interface BlockInterface {
      * @return void
      */
     public function onLoad();
+
+    /**
+     * Execute all render phases
+     *
+     * @param mixed ...$args
+     * @return void
+     */
+    public function doRender(...$args);
+
+    /**
+     * Get the block info
+     *
+     * @return Block
+     */
+    public function getBlockInfo();
 }

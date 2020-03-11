@@ -64,7 +64,7 @@ class Block {
     public $domain;
 
     /**
-     * Absolute path to block template
+     * Path to block template
      *
      * @var string $template
      */
