@@ -78,6 +78,7 @@ Adding content to the template
 
 ```
 <!-- example/example.template.php -->
+<?php global $context; ?>
 <h1><?php echo $context['hello']; ?></h1>
 ```
 
