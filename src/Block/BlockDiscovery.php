@@ -35,7 +35,7 @@ class BlockDiscovery {
 
 
     /**
-     * WorkerDiscovery constructor.
+     * BlockDiscovery constructor.
      *
      * @param $namespace
      *   The namespace of the blocks
@@ -107,7 +107,7 @@ class BlockDiscovery {
     }
 
     /**
-     * Returns all the workers
+     * Returns all the blocks
      *
      * @return array
      */
