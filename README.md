@@ -57,23 +57,28 @@ use MagonxESP\BlockAutoload\Block\BlockBase;
  *     name="example",
  *     title="Example",
  *     description="Example block",
- *     icon="none",
+ *     icon="",
  *     domain="my-site",
  *     category="custom",
- *     keywords="keywords",
+ *     keywords={"keyword1", "keyword2"},
  *     template="example.template.php"
  * )
  */
 class Example extends BlockBase {
-    // this class can be empty
+    
+    public $hello;
+
+    public function setup() {
+        $this->hello = 'Hello wordpress';
+    }
 }
 ```
 
 Adding content to the template
 
-```html
+```
 <!-- example/example.template.php -->
-<h1>Example block HTML content</h1>
+<h1><?php echo $context['hello']; ?></h1>
 ```
 
 #### Autoloading blocks by the ACF PRO plugin block API
@@ -95,4 +100,4 @@ add_action('init', function() {
 - Using block class properties as template variables
 - Compatibility with the wordpress block api (defined in current version but does nothing)
 - Compatibility with Twig templates (using Timber plugin)
-- Possibility to alter the render output via events (overriding class defined abstract methods)
+- Possibility to alter the render output with wordpress filters
