@@ -24,11 +24,18 @@ interface BlockInterface {
     public function register();
 
     /**
-     * Block load event
+     * Get the block render context variables
+     *
+     * @return array
+     */
+    public function getContext();
+
+    /**
+     * Setup the block
      *
      * @return void
      */
-    public function onLoad();
+    public function setup();
 
     /**
      * Execute all render phases
