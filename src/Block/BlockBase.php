@@ -113,15 +113,18 @@ abstract class BlockBase implements BlockInterface {
                 $template = $this->absolutePath . '/' . $template;
             }
 
-            ob_start();
-            include_once $template;
-            $output = ob_get_clean();
+            if ($this->fileSystem->exists($template)) {
+                ob_start();
+                include_once $template;
+                $output = ob_get_clean();
 
-            if ($output !== false) {
-                echo $output;
-            } else {
-                echo '';
+                if ($output !== false) {
+                    echo $output;
+                    return;
+                }
             }
+
+            echo '';
         }
     }
 
