@@ -61,13 +61,6 @@ abstract class BlockBase implements BlockInterface {
     /**
      * @inheritDoc
      */
-    public function register() {
-        BlockRegistry::register($this, $this->blockApi);
-    }
-
-    /**
-     * @inheritDoc
-     */
     public function getContext() {
         $reflection = new \ReflectionClass($this);
         $propertyes = $reflection->getProperties(\ReflectionProperty::IS_PUBLIC);

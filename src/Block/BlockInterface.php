@@ -15,14 +15,7 @@ interface BlockInterface {
      * @return void
      */
     public function render($settings, $content = '', $is_preview = false);
-
-    /**
-     * Register the block
-     *
-     * @return void
-     */
-    public function register();
-
+    
     /**
      * Get the block render context variables
      *

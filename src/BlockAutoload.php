@@ -4,10 +4,9 @@
 namespace MagonxESP\BlockAutoload;
 
 use Doctrine\Common\Annotations\AnnotationReader;
-use MagonxESP\BlockAutoload\Block\BlockBase;
 use MagonxESP\BlockAutoload\Block\BlockDiscovery;
 use MagonxESP\BlockAutoload\Block\BlockInterface;
-use MagonxESP\BlockAutoload\Block\BlockPlugin;
+use MagonxESP\BlockAutoload\Block\BlockRegistry;
 use MagonxESP\BlockAutoload\Exception\BlockAutoloadException;
 use Symfony\Component\Filesystem\Filesystem;
 
@@ -99,9 +98,9 @@ class BlockAutoload {
             /** @var Block $annotation */
             $annotation = $block['annotation'];
             $class = $block['class'];
-            /** @var BlockBase $blockInstance */
+            /** @var BlockInterface $blockInstance */
             $blockInstance = new $class($annotation, $this->blockApi, $block['absolute_path']);
-            $blockInstance->register();
+            BlockRegistry::register($blockInstance, $this->blockApi);
         }
     }
 
