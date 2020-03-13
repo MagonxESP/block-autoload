@@ -74,7 +74,7 @@ abstract class BlockBase implements BlockInterface {
         $context = [];
 
         foreach ($propertyes as $property) {
-            $context[$property->getName()] = $property->getValue();
+            $context[$property->getName()] = $property->getValue($this);
         }
 
         return $context;
@@ -93,13 +93,13 @@ abstract class BlockBase implements BlockInterface {
             'args' => $args
         ];
 
-        $block_vars = apply_filters('block_autoload_before_render', $this->annotation->name, $block_vars);
+        $block_vars = apply_filters('block_autoload_before_render', $block_vars, $this->annotation->name);
         $context = $block_vars['context'];
         $args = $block_vars['args'];
 
         $this->render(...$args);
 
-        do_action('block_autoload_after_render', $this->annotation->name, $block_vars);
+        do_action('block_autoload_after_render', $block_vars, $this->annotation->name);
     }
 
     /**
@@ -119,6 +119,8 @@ abstract class BlockBase implements BlockInterface {
 
             if ($output !== false) {
                 echo $output;
+            } else {
+                echo '';
             }
         }
     }
