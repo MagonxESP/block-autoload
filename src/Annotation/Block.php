@@ -4,6 +4,7 @@
 namespace MagonxESP\BlockAutoload\Annotation;
 
 use Doctrine\Common\Annotations\Annotation;
+use Doctrine\Common\Annotations\Annotation\Required;
 
 /**
  * Class Block
@@ -18,6 +19,7 @@ class Block {
      * Block machine name
      *
      * @var string $name
+     * @Required
      */
     public $name;
 
@@ -25,6 +27,7 @@ class Block {
      * Block title
      *
      * @var string $title
+     * @Required
      */
     public $title;
 
@@ -32,6 +35,7 @@ class Block {
      * Block description
      *
      * @var string $description
+     * @Required
      */
     public $description;
 
@@ -39,6 +43,7 @@ class Block {
      * Block category
      *
      * @var string $category
+     * @Required
      */
     public $category;
 
@@ -47,19 +52,20 @@ class Block {
      *
      * @var string $icon
      */
-    public $icon;
+    public $icon = '';
 
     /**
      * Block keywords
      *
      * @var string[] $keywords
      */
-    public $keywords;
+    public $keywords = [];
 
     /**
      * Block domain
      *
      * @var string $domain
+     * @Required
      */
     public $domain;
 
@@ -67,6 +73,7 @@ class Block {
      * Path to block template
      *
      * @var string $template
+     * @Required
      */
     public $template;
 
