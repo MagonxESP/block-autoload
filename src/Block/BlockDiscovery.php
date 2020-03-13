@@ -49,6 +49,22 @@ class BlockDiscovery {
         $this->directory = $directory;
     }
 
+    /**
+     * Require php file if has class declarated
+     *
+     * @param SplFileInfo $file
+     */
+    private function requireClass(SplFileInfo $file) {
+        $source = file_get_contents($file->getRealPath());
+
+        if ($source && strstr($source, 'class ' . $file->getBasename('.php'))) {
+            require_once $file->getRealPath();
+        }
+    }
+
+    /**
+     * Autoload and discover blocks
+     */
     private function discoverBlocks() {
         $finder = new Finder();
         $finder->files()->in($this->directory);
@@ -67,7 +83,7 @@ class BlockDiscovery {
                     $class = $namespace . $fileInfo->getBasename('.php');
 
                     if (!class_exists($class)) {
-                        require_once $fileInfo->getRealPath();
+                       $this->requireClass($fileInfo);
                     }
 
                     /** @var Block|null $annotation */
