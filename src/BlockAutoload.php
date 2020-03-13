@@ -37,7 +37,7 @@ class BlockAutoload {
      *
      * @var string $blocksNamespace
      */
-    private $blocksNamespace;
+    private $blocksNamespace = '';
 
     /**
      * BlockAutoload constructor.
