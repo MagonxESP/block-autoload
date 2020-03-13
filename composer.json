@@ -29,10 +29,10 @@
     "require": {
         "symfony/filesystem": "^5.0",
         "doctrine/annotations": "^1.8",
-        "symfony/finder": "^5.0"
+        "symfony/finder": "^5.0",
+        "timber/timber": "^1.15"
     },
     "require-dev": {
-        "timber/timber": "^1.15",
         "advanced-custom-fields/advanced-custom-fields-pro": "^5.8",
         "johnpbloch/wordpress-core": "^5.3"
     },
