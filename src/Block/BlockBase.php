@@ -14,28 +14,35 @@ abstract class BlockBase implements BlockInterface {
      *
      * @var Block $annotation
      */
-    private $annotation;
+    protected $annotation;
 
     /**
      * The block api will use for create the block instance
      *
      * @var string $blockApi
      */
-    private $blockApi;
+    protected $blockApi;
 
     /**
      * Block absolute path
      *
      * @var string $absolutePath
      */
-    private $absolutePath;
+    protected $absolutePath;
 
     /**
      * FileSystem service
      *
      * @var Filesystem $fileSystem
      */
-    private $fileSystem;
+    protected $fileSystem;
+
+    /**
+     * The template context variables array
+     *
+     * @var array $context
+     */
+    protected $context = [];
 
     /**
      * AbstractBlock constructor.
@@ -59,46 +66,54 @@ abstract class BlockBase implements BlockInterface {
     }
 
     /**
+     * Get the class public properties
+     *
+     * @return array
+     * @throws \ReflectionException
+     */
+    protected function getProperties() {
+        $props = [];
+
+        try {
+            $reflection = new \ReflectionClass($this);
+            $properties = $reflection->getProperties(\ReflectionProperty::IS_PUBLIC);
+
+            foreach ($properties as $property) {
+                $props[$property->getName()] = $property->getValue($this);
+            }
+        } catch (\ReflectionException $e) {
+            error_log($e->getMessage(), 0);
+        }
+
+        return $props;
+    }
+
+    /**
      * @inheritDoc
      */
     public function getContext() {
-        $reflection = new \ReflectionClass($this);
-        $propertyes = $reflection->getProperties(\ReflectionProperty::IS_PUBLIC);
-        $context = [];
-
-        foreach ($propertyes as $property) {
-            $context[$property->getName()] = $property->getValue($this);
-        }
-
-        return $context;
+        return $this->getProperties();
     }
 
     /**
      * @inheritDoc
      */
     public function doRender(...$args) {
-        global $context;
-
         $this->setup();
-        $context = $this->getContext();
-        $block_vars = [
-            'context' => $context,
-            'args' => $args
-        ];
-
-        $block_vars = apply_filters('block_autoload_before_render', $block_vars, $this->annotation->name);
-        $context = $block_vars['context'];
-        $args = $block_vars['args'];
-
-        $this->render(...$args);
-
-        do_action('block_autoload_after_render', $block_vars, $this->annotation->name);
+        $context = BlockPLugin::parseRenderArgs($this->blockApi, $args);
+        $context += $this->getContext();
+        // alter the block context if necesary
+        $context = apply_filters('block_autoload_before_render', $context, $this->annotation->name);
+        // render the block
+        $this->render($context);
+        // after render block action
+        do_action('block_autoload_after_render', $context, $this->annotation->name);
     }
 
     /**
      * @inheritDoc
      */
-    public function render($settings, $content = '', $is_preview = false) {
+    public function render($context) {
         if ($this->annotation->template != null && $this->annotation->template != '') {
             $template = $this->annotation->template;
 
