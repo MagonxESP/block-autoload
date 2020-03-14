@@ -8,13 +8,11 @@ interface BlockInterface {
     /**
      * Render the block content
      *
-     * @param mixed $settings
-     * @param string $content
-     * @param bool $is_preview
+     * @param array $context
      *
      * @return void
      */
-    public function render($settings, $content = '', $is_preview = false);
+    public function render($context);
     
     /**
      * Get the block render context variables
