@@ -14,35 +14,28 @@ abstract class BlockBase implements BlockInterface {
      *
      * @var Block $annotation
      */
-    protected $annotation;
+    private $annotation;
 
     /**
      * The block api will use for create the block instance
      *
      * @var string $blockApi
      */
-    protected $blockApi;
+    private $blockApi;
 
     /**
      * Block absolute path
      *
      * @var string $absolutePath
      */
-    protected $absolutePath;
+    private $absolutePath;
 
     /**
      * FileSystem service
      *
      * @var Filesystem $fileSystem
      */
-    protected $fileSystem;
-
-    /**
-     * The template context variables array
-     *
-     * @var array $context
-     */
-    protected $context = [];
+    private $fileSystem;
 
     /**
      * AbstractBlock constructor.
@@ -111,9 +104,19 @@ abstract class BlockBase implements BlockInterface {
     }
 
     /**
-     * @inheritDoc
+     * Call a render callback for render the block template.
+     *
+     * @param callable $render_callback
+     *      The function callback on render the block template.
+     *      Requires the $template argument and recomend to use $context for template variables
+     *
+     * @example
+     *      $this->createRenderScope(function($template) use ($context) {
+     *          // use $context if you will inject variables on the rendered template
+     *          include_once $template;
+     *      });
      */
-    public function render($context) {
+    protected function createRenderScope($render_callback) {
         if ($this->annotation->template != null && $this->annotation->template != '') {
             $template = $this->annotation->template;
 
@@ -122,18 +125,26 @@ abstract class BlockBase implements BlockInterface {
             }
 
             if ($this->fileSystem->exists($template)) {
-                ob_start();
-                include_once $template;
-                $output = ob_get_clean();
-
-                if ($output !== false) {
-                    echo $output;
-                    return;
-                }
+                $render_callback($template);
             }
 
             echo '';
         }
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function render($context) {
+        $this->createRenderScope(function($template) use ($context) {
+            ob_start();
+            include_once $template;
+            $output = ob_get_clean();
+
+            if ($output !== false) {
+                echo $output;
+            }
+        });
     }
 
 }
