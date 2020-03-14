@@ -74,11 +74,10 @@ class Example extends BlockBase {
 }
 ```
 
-Adding content to the template
+Adding content to the template, and use defined ``$context`` variable for access to block class public properties
 
 ```
 <!-- example/example.template.php -->
-<?php global $context; ?>
 <h1><?php echo $context['hello']; ?></h1>
 ```
 
