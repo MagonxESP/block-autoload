@@ -4,6 +4,8 @@
 namespace MagonxESP\BlockAutoload\Block;
 
 
+use MagonxESP\BlockAutoload\Annotation\Block;
+
 interface BlockInterface {
     /**
      * Render the block content
