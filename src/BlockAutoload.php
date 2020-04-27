@@ -4,6 +4,7 @@
 namespace MagonxESP\BlockAutoload;
 
 use Doctrine\Common\Annotations\AnnotationReader;
+use MagonxESP\BlockAutoload\Annotation\Block;
 use MagonxESP\BlockAutoload\Block\BlockDiscovery;
 use MagonxESP\BlockAutoload\Block\BlockInterface;
 use MagonxESP\BlockAutoload\Block\BlockRegistry;
