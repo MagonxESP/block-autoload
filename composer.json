@@ -41,5 +41,8 @@
         "psr-4": {
             "MagonxESP\\BlockAutoload\\": "src/"
         }
+    },
+    "scripts": {
+        "test": "vendor/bin/phpunit Tests"
     }
 }
