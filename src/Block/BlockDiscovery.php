@@ -33,13 +33,12 @@ class BlockDiscovery {
      */
     private $blocks = [];
 
-
     /**
      * BlockDiscovery constructor.
      *
-     * @param $namespace
+     * @param string $namespace
      *   The namespace of the blocks
-     * @param $directory
+     * @param string $directory
      *   The directory of the blocks
      * @param Reader $annotationReader
      */
