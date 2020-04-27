@@ -10,6 +10,8 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
+    env:
+      ACF_PRO_KEY: ${{ secrets.ACF_PRO_KEY }}
 
     steps:
     - uses: actions/checkout@v2
