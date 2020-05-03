@@ -15,6 +15,8 @@ class BlockPlugin {
      *      The positional argumants map, the key is the argument position and the value is the argumant name
      * @param array $args
      *      The positional arguments to map to an associative array
+     *
+     * @return array
      */
     private static function mapArgs($map, $args) {
         $arguments_array = [];
