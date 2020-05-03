@@ -11,9 +11,9 @@ class BlockDiscoveryTest extends TestCase {
 
     private $namespace = 'MagonxESP\\Tests\\SampleBlocks\\';
 
-    private $directory = __DIR__ . '/SampleBlocks';
+    private $directory = __DIR__ . '/SampleBlocks/WithNamespace';
 
-    private $directoryNoNS = __DIR__ . '/SampleBlocksNoNS';
+    private $directoryNoNS = __DIR__ . '/SampleBlocks/WithoutNamespace';
 
     public function testBlockIsAvailable() {
         $discovery = new BlockDiscovery($this->namespace, $this->directory, new AnnotationReader());

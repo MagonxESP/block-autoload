@@ -1,8 +1,6 @@
 <?php
 
 
-namespace MagonxESP\Tests\SampleBlocks;
-
 use MagonxESP\BlockAutoload\Annotation\Block;
 use MagonxESP\BlockAutoload\Block\BlockBase;
 
@@ -22,16 +20,8 @@ use MagonxESP\BlockAutoload\Block\BlockBase;
  */
 class ExamplePhpBlock extends BlockBase {
 
-    public $myPublicProperty;
-
-    private $myPrivateProperty;
-
-    protected $myProtectedProperty;
-
     public function setup() {
-        $this->myPublicProperty = 'Sample Block';
-        $this->myPrivateProperty = 'Sample Private Block';
-        $this->myProtectedProperty = 'Sample Protected Block';
+        // TODO: Implement setup() method.
     }
 
 }

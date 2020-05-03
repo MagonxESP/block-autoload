@@ -11,7 +11,7 @@ use MagonxESP\BlockAutoload\Block\BlockBase;
  * @package Tests\SampleBlocks
  *
  * @Block(
- *     name="sample_php_block",
+ *     name="sample_php_block_not_implemented",
  *     title="Sample PHP Block",
  *     description="Sample PHP Block",
  *     category="TestBlock",
@@ -20,18 +20,10 @@ use MagonxESP\BlockAutoload\Block\BlockBase;
  *     template="examplephpblock.template.php"
  * )
  */
-class ExamplePhpBlock extends BlockBase {
-
-    public $myPublicProperty;
-
-    private $myPrivateProperty;
-
-    protected $myProtectedProperty;
+class ExamplePhpBlockNotImplemented {
 
     public function setup() {
-        $this->myPublicProperty = 'Sample Block';
-        $this->myPrivateProperty = 'Sample Private Block';
-        $this->myProtectedProperty = 'Sample Protected Block';
+        // TODO: Implement setup() method.
     }
 
 }
