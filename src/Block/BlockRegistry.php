@@ -52,7 +52,11 @@ class BlockRegistry {
             case BlockPlugin::WP_BLOCK_API:
                 break;
             default:
-                throw new BlockAutoloadException('Unsupported block api ' . $blockApi . 'for register block ' . $block->name);
+                $blockName = $block->getBlockInfo()->name;
+                throw new BlockAutoloadException(
+                    'Unsupported block api ' . $blockApi . 'for register block ' . $blockName,
+                    BlockAutoloadException::NOT_SUPPORTED_BLOCK_API
+                );
         }
     }
 

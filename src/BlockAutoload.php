@@ -65,11 +65,17 @@ class BlockAutoload {
         $exists = $this->fileSystem->exists($blocksDirectoryAbsPath);
 
         if (!$is_absolute) {
-            throw new BlockAutoloadException("The blocks directory path should be absolute");
+            throw new BlockAutoloadException(
+                "The blocks directory path should be absolute",
+                BlockAutoloadException::NOT_ABSOLUTE_PATH
+            );
         }
 
         if (!$exists) {
-            throw new BlockAutoloadException("The blocks directory does not exists");
+            throw new BlockAutoloadException(
+                "The blocks directory does not exists",
+                BlockAutoloadException::NOT_EXIST_PATH
+            );
         }
 
         if (substr($blocksDirectoryAbsPath, -1) === '/') {
@@ -89,19 +95,47 @@ class BlockAutoload {
     }
 
     /**
-     * Load the blocks
+     * Create the instance of discovered block
+     *
+     * @param array $block The block array
+     * @return BlockInterface|null
+     */
+    public function createBlockInstance(array $block) {
+        /** @var Block $annotation */
+        $annotation = $block['annotation'];
+        $class = $block['class'];
+        /** @var BlockInterface $blockInstance */
+        $blockObject = new $class($annotation, $this->blockApi, $block['absolute_path']);
+
+        if ($blockObject instanceof BlockInterface) {
+            return $blockObject;
+        }
+
+        return null;
+    }
+
+    /**
+     * Get the prepared BlockDiscovery instance
+     *
+     * @return BlockDiscovery
+     */
+    public function getBlockDiscoveryInstance() {
+        return new BlockDiscovery($this->blocksNamespace, $this->blocksDirectory, new AnnotationReader());
+    }
+
+    /**
+     * Discover and register the blocks
      */
     public function load() {
-        $discovery = new BlockDiscovery($this->blocksNamespace, $this->blocksDirectory, new AnnotationReader());
+        $discovery = $this->getBlockDiscoveryInstance();
         $blocks = $discovery->getBlocks();
 
         foreach ($blocks as $block) {
-            /** @var Block $annotation */
-            $annotation = $block['annotation'];
-            $class = $block['class'];
-            /** @var BlockInterface $blockInstance */
-            $blockInstance = new $class($annotation, $this->blockApi, $block['absolute_path']);
-            BlockRegistry::register($blockInstance, $this->blockApi);
+            $blockObject = $this->createBlockInstance($block);
+
+            if ($blockObject) {
+                BlockRegistry::register($blockObject, $this->blockApi);
+            }
         }
     }
 

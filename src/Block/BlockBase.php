@@ -96,11 +96,15 @@ abstract class BlockBase implements BlockInterface {
         $context = BlockPLugin::parseRenderArgs($this->blockApi, $args);
         $context += $this->getContext();
         // alter the block context if necesary
-        $context = apply_filters('block_autoload_before_render', $context, $this->annotation->name);
+        if (function_exists('apply_filters')) {
+            $context = apply_filters('block_autoload_before_render', $context, $this->annotation->name);
+        }
         // render the block
         $this->render($context);
         // after render block action
-        do_action('block_autoload_after_render', $context, $this->annotation->name);
+        if (function_exists('do_action')) {
+            do_action('block_autoload_after_render', $context, $this->annotation->name);
+        }
     }
 
     /**
