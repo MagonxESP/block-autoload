@@ -49,6 +49,14 @@ abstract class BlockBase implements BlockInterface {
         $this->annotation = $annotation;
         $this->blockApi = $blockApi;
         $this->absolutePath = $absolutePath;
+        $this->onInit();
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function onInit() {
+        // TODO override this method
     }
 
     /**
@@ -62,7 +70,6 @@ abstract class BlockBase implements BlockInterface {
      * Get the class public properties
      *
      * @return array
-     * @throws \ReflectionException
      */
     protected function getProperties() {
         $props = [];

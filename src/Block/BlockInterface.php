@@ -44,4 +44,11 @@ interface BlockInterface {
      * @return Block
      */
     public function getBlockInfo();
+
+    /**
+     * Block init event is executed when the block is instantiated
+     *
+     * @return void
+     */
+    public function onInit();
 }
